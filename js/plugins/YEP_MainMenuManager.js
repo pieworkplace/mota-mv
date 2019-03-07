@@ -4746,6 +4746,10 @@ Scene_Menu.prototype.repositionWindows = function() {
       this._commandWindow.x = 0;
       this._goldWindow.x = 0;
       this._statusWindow.x = this._commandWindow.width;
+    } else if (Yanfly.Param.MMMCmdPosition === 'center') {
+    	// junlin added: command window centered
+    	this._commandWindow.x = 0.5 * (Graphics.boxWidth - this._commandWindow.width);
+	    this._commandWindow.y = 0.5 * (Graphics.boxHeight - this._commandWindow.height);
     }
 };
 
