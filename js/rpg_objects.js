@@ -2422,11 +2422,14 @@ Game_BattlerBase.prototype.paramPlus = function(paramId) {
 };
 
 Game_BattlerBase.prototype.paramMin = function(paramId) {
-    if (paramId === 1) {
-        return 0;   // MMP
-    } else {
-        return 1;
-    }
+    // if (paramId === 1) {
+    //     return 0;   // MMP
+    // } else {
+    //     return 1;
+    // }
+
+    // junlin changed: min value of all params
+    return 0;
 };
 
 Game_BattlerBase.prototype.paramMax = function(paramId) {
@@ -3878,12 +3881,13 @@ Game_Actor.prototype.changeExp = function(exp, show) {
     this._exp[this._classId] = Math.max(exp, 0);
     var lastLevel = this._level;
     var lastSkills = this.skills();
-    while (!this.isMaxLevel() && this.currentExp() >= this.nextLevelExp()) {
-        this.levelUp();
-    }
-    while (this.currentExp() < this.currentLevelExp()) {
-        this.levelDown();
-    }
+    // junlin changed: disable level up
+    // while (!this.isMaxLevel() && this.currentExp() >= this.nextLevelExp()) {
+    //     this.levelUp();
+    // }
+    // while (this.currentExp() < this.currentLevelExp()) {
+    //     this.levelDown();
+    // }
     if (show && this._level > lastLevel) {
         this.displayLevelUp(this.findNewSkills(lastSkills));
     }

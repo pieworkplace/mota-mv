@@ -190,6 +190,11 @@ Scene_Base.prototype.startFadeIn = function(duration, white) {
     this.createFadeSprite(white);
     this._fadeSign = 1;
     this._fadeDuration = duration || 30;
+    // junlin changed: remove fade out from battle
+    if (SceneManager.isPreviousScene(Scene_Battle)){
+        this._fadeSprite.opacity = 0;
+        return;
+    }
     this._fadeSprite.opacity = 255;
 };
 
@@ -239,6 +244,13 @@ Scene_Base.prototype.createFadeSprite = function(white) {
  */
 Scene_Base.prototype.updateFade = function() {
     if (this._fadeDuration > 0) {
+        // junlin added: for faster encounter, remove fade in/out in battle
+        if (SceneManager.isNextScene(Scene_Battle) || (SceneManager._scene instanceof Scene_Battle)){
+            this._fadeDuration = 0;
+            this._fadeSprite.opacity = 0;
+            return;
+        }
+
         var d = this._fadeDuration;
         if (this._fadeSign > 0) {
             this._fadeSprite.opacity -= this._fadeSprite.opacity / d;
@@ -864,7 +876,9 @@ Scene_Map.prototype.updateEncounterEffect = function() {
             this.snapForBattleBackground();
             this.startFlashForEncounter(speed / 2);
         }
-        $gameScreen.setZoom(zoomX, zoomY, q);
+        //junlin changed, remove zoom
+        $gameScreen.setZoom(zoomX, zoomY, 1);
+        // $gameScreen.setZoom(zoomX, zoomY, q);
         if (n === Math.floor(speed / 6)) {
             this.startFlashForEncounter(speed / 2);
         }
@@ -882,12 +896,16 @@ Scene_Map.prototype.snapForBattleBackground = function() {
 };
 
 Scene_Map.prototype.startFlashForEncounter = function(duration) {
+    // junlin changed: remove flash
+    return;
     var color = [255, 255, 255, 255];
     $gameScreen.startFlash(color, duration);
 };
 
 Scene_Map.prototype.encounterEffectSpeed = function() {
-    return 60;
+    // junlin changed: faster encounter
+    return 2;
+    //return 60;
 };
 
 //-----------------------------------------------------------------------------
