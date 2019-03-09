@@ -154,7 +154,14 @@ if (Imported["OrangeHudActorStatus"] === undefined) {
     window.contents.fontItalic = variableData.FontItalic;
     window.changeTextColor(variableData.FontColor);
 
-    window.drawTextEx(line, variableData.X, variableData.Y);
+    // junlin changed: position of hud when battle/map
+    if (SceneManager._scene instanceof Scene_Battle){
+      window.drawTextEx(line, 150, 150);
+    } else {
+      window.drawTextEx(line, 624, 48);
+    }
+    // window.drawTextEx(line, variableData.X, variableData.Y);
+    
 
     window.resetFontSettings();
   };
@@ -170,41 +177,54 @@ if (Imported["OrangeHudActorStatus"] === undefined) {
       var line = pattern;
       var actorData = members[variableData.ActorIndex];
 
-      line = line.replace(/\<hp\>/gi, actorData.hp);
-      line = line.replace(/\<mp\>/gi, actorData.mp);
-      line = line.replace(/\<tp\>/gi, actorData.tp);
-      line = line.replace(/\<mhp\>/gi, actorData.mhp);
-      line = line.replace(/\<mmp\>/gi, actorData.mmp);
-      line = line.replace(/\<atk\>/gi, actorData.atk);
-      line = line.replace(/\<def\>/gi, actorData.def);
-      line = line.replace(/\<mat\>/gi, actorData.mat);
-      line = line.replace(/\<mdf\>/gi, actorData.mdf);
-      line = line.replace(/\<agi\>/gi, actorData.agi);
-      line = line.replace(/\<luk\>/gi, actorData.luk);
-      line = line.replace(/\<hit\>/gi, actorData.hit);
-      line = line.replace(/\<eva\>/gi, actorData.eva);
-      line = line.replace(/\<cri\>/gi, actorData.cri);
-      line = line.replace(/\<cev\>/gi, actorData.cev);
-      line = line.replace(/\<mev\>/gi, actorData.mev);
-      line = line.replace(/\<mrf\>/gi, actorData.mrf);
-      line = line.replace(/\<cnt\>/gi, actorData.cnt);
-      line = line.replace(/\<hrg\>/gi, actorData.hrg);
-      line = line.replace(/\<mrg\>/gi, actorData.mrg);
-      line = line.replace(/\<trg\>/gi, actorData.trg);
-      line = line.replace(/\<tgr\>/gi, actorData.tgr);
-      line = line.replace(/\<grd\>/gi, actorData.grd);
-      line = line.replace(/\<rec\>/gi, actorData.rec);
-      line = line.replace(/\<pha\>/gi, actorData.pha);
-      line = line.replace(/\<mcr\>/gi, actorData.mcr);
-      line = line.replace(/\<tcr\>/gi, actorData.tcr);
-      line = line.replace(/\<pdr\>/gi, actorData.pdr);
-      line = line.replace(/\<mdr\>/gi, actorData.mdr);
-      line = line.replace(/\<fdr\>/gi, actorData.fdr);
-      line = line.replace(/\<exr\>/gi, actorData.exr);
-      line = line.replace(/\<level\>/gi, actorData.level);
-      line = line.replace(/\<maxlevel\>/gi, actorData.maxLevel());
-      line = line.replace(/\<exp\>/gi, actorData.currentExp());
+      // junlin added: states(poison, weakness)
+      stateStr = "";
+      for (var i = 0; i < actorData._states.length; i++){
+        stateStr = stateStr + "\\i[" + (actorData._states[i]) + "]";
+      }
 
+      // junlin changed: battle hud
+      if (SceneManager._scene instanceof Scene_Battle){
+        // solve problem of whitespace
+        function spaces(n){
+          str = '';
+          for (var i = 0; i < n; i++) str += ' ';
+          return str;
+        }
+        gap = "";
+        enemyData = $gameTroop.members()[0];
+        line = line.replace(/\<map_hud\>/gi, "");
+        line = line.replace(/\<battle_hud\>/gi, 
+            enemyData.name() + gap + spaces(18 - 2 * (""+ enemyData.name()).length)
+          + "勇者\n"
+          + "生命: " + enemyData.hp + gap + spaces(12-(""+enemyData.hp).length)
+          + "生命: " + actorData.hp + "\n"
+          + "攻击: " + enemyData.atk + gap + spaces(12-(""+enemyData.atk).length)
+          + "攻击: " + actorData.atk + "\n"
+          + "防御: " + enemyData.def + gap + spaces(12-(""+enemyData.def).length)
+          + "防御: " + actorData.def + "\n"
+          + "魔攻: " + enemyData.mat + gap + spaces(12-(""+enemyData.mat).length)
+          + "魔攻: " + actorData.mat + "\n"
+          + "魔防: " + enemyData.mdf + gap + spaces(12-(""+enemyData.mdf).length)
+          + "魔防: " + actorData.mdf + "\n"
+          + "金币: " + enemyData.gold() + gap + spaces(12-(""+enemyData.gold()).length)
+          + stateStr + "\n"
+          + "经验: " + enemyData.exp()
+          );
+      } else {
+        line = line.replace(/\<battle_hud\>/gi, "");
+        line = line.replace(/\<map_hud\>/gi, 
+          "等级：" + actorData.level
+          + "\n生命: " + actorData.hp
+          + "\n攻击: " + actorData.atk
+          + "\n防御: " + actorData.def
+          + "\n魔攻: " + actorData.mat
+          + "\n魔防: " + actorData.mdf
+          + "\n金币: " + $gameParty.gold()
+          + "\n经验: " + actorData.currentExp()
+          + "\n" + stateStr);
+      }
+      
       return line;
     } else {
       return '';

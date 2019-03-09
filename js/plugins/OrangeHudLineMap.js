@@ -1,12 +1,12 @@
 /*=============================================================================
  * Orange - Line HUD
  * By HUDell - www.hudell.com
- * OrangeHudLine.js
+ * OrangeHudLineMap.js
  * Version: 1.6
  * Free for commercial and non commercial use.
  *=============================================================================*/
 /*:
- * @plugindesc OrangeHudLine 1.5 - Adds a new Variable to Orange Hud
+ * @plugindesc OrangeHudLineMap 1.5 - Adds a new Variable to Orange Hud
  * @author Hudell
  *
  * @param GroupName
@@ -76,10 +76,10 @@ if (Imported["OrangeHud"] === undefined) {
   throw new Error("Please add OrangeHud before OrangeHudLine!");
 }
 
-var OrangeHudDefaultLine = OrangeHudDefaultLine || {};
+var OrangeHudLineMap = OrangeHudLineMap || {};
 
-if (Imported["OrangeHudLine"] === undefined) {
-  OrangeHudDefaultLine.validateParams = function(line) {
+if (Imported["OrangeHudLineMap"] === undefined) {
+  OrangeHudLineMap.validateParams = function(line) {
     line.GroupName = line.GroupName || "main";
     
     if (line.ScriptPattern !== undefined && line.ScriptPattern.trim() === "") {
@@ -116,7 +116,7 @@ if (Imported["OrangeHudLine"] === undefined) {
     line.SwitchId = Number(line.SwitchId || 0);
   };
 
-  OrangeHudDefaultLine.drawLine = function(window, variableData) {
+  OrangeHudLineMap.drawLine = function(window, variableData) {
     if (variableData.SwitchId > 0) {
       if (!$gameSwitches.value(variableData.SwitchId)) {
         return;
@@ -130,6 +130,13 @@ if (Imported["OrangeHudLine"] === undefined) {
 
     var line = pattern.format($gameVariables.value(variableData.VariableId));
 
+    // junlin changed: map name
+    if (SceneManager._scene instanceof Scene_Battle){
+      line = "";
+    } else {
+      line = $gameMap.displayName();
+    }
+
     window.contents.fontFace = variableData.FontFace;
     window.contents.fontSize = variableData.FontSize;
     window.contents.fontItalic = variableData.FontItalic;
@@ -140,7 +147,7 @@ if (Imported["OrangeHudLine"] === undefined) {
     window.resetFontSettings();
   };
 
-  OrangeHudDefaultLine.realX = function(variableData) {
+  OrangeHudLineMap.realX = function(variableData) {
     var x = variableData.X;
 
     if (variableData.VariableX > 0) {
@@ -150,7 +157,7 @@ if (Imported["OrangeHudLine"] === undefined) {
     return x;
   };
 
-  OrangeHudDefaultLine.realY = function(variableData) {
+  OrangeHudLineMap.realY = function(variableData) {
     var y = variableData.Y;
 
     if (variableData.VariableY > 0) {
@@ -161,14 +168,14 @@ if (Imported["OrangeHudLine"] === undefined) {
   };
 
 
-  OrangeHudDefaultLine.getValue = function(variableData) {
+  OrangeHudLineMap.getValue = function(variableData) {
     return $gameVariables.value(variableData.VariableId);
   };
 
-  OrangeHudDefaultLine.getKey = function(variableData) {
+  OrangeHudLineMap.getKey = function(variableData) {
     return variableData.VariableId;
   };
 
-  OrangeHud.registerLineType('OrangeHudLine', OrangeHudDefaultLine);
-  Imported["OrangeHudLine"] = 1.6;
+  OrangeHud.registerLineType('OrangeHudLineMap', OrangeHudLineMap);
+  Imported["OrangeHudLineMap"] = 1.6;
 }
