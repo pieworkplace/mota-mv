@@ -210,6 +210,7 @@ if (Imported["OrangeHudActorStatus"] === undefined) {
           + "金币: " + enemyData.gold() + gap + spaces(12-(""+enemyData.gold()).length)
           + stateStr + "\n"
           + "经验: " + enemyData.exp()
+          + "\n\n撤退: 长按 X 或 Esc 可在主角回合撤退"
           );
       } else {
         line = line.replace(/\<battle_hud\>/gi, "");
