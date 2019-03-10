@@ -4597,8 +4597,7 @@ Scene_Battle.prototype.createEnemyWindow = function() {
 
 Scene_Battle.prototype.adjustLowerWindow = function(win) {
     win.height = win.fittingHeight(Yanfly.Param.BECWindowRows);
-    // win.y = Graphics.boxHeight - win.height;
-    win.y = 9999;
+    win.y = Graphics.boxHeight - win.height;
 };
 
 Yanfly.BEC.Scene_Battle_startPartyCommandSelection =

@@ -190,6 +190,11 @@ Scene_Base.prototype.startFadeIn = function(duration, white) {
     this.createFadeSprite(white);
     this._fadeSign = 1;
     this._fadeDuration = duration || 30;
+    // junlin changed: fade out from battle to gameover
+    if (SceneManager.isNextScene(Scene_Gameover)){
+        this._fadeSprite.opacity = 255;
+        return;
+    }
     // junlin changed: remove fade out from battle
     if (SceneManager.isPreviousScene(Scene_Battle)){
         this._fadeSprite.opacity = 0;
@@ -245,7 +250,9 @@ Scene_Base.prototype.createFadeSprite = function(white) {
 Scene_Base.prototype.updateFade = function() {
     if (this._fadeDuration > 0) {
         // junlin added: for faster encounter, remove fade in/out in battle
-        if (SceneManager.isNextScene(Scene_Battle) || (SceneManager._scene instanceof Scene_Battle)){
+        if (SceneManager.isNextScene(Scene_Gameover)){
+            //junlin added: exempt gameover
+        }else if (SceneManager.isNextScene(Scene_Battle) || (SceneManager._scene instanceof Scene_Battle)){
             this._fadeDuration = 0;
             this._fadeSprite.opacity = 0;
             return;

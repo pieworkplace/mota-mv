@@ -5460,10 +5460,15 @@ Window_BattleStatus.prototype = Object.create(Window_Selectable.prototype);
 Window_BattleStatus.prototype.constructor = Window_BattleStatus;
 
 Window_BattleStatus.prototype.initialize = function() {
-    var width = this.windowWidth();
-    var height = this.windowHeight();
-    var x = Graphics.boxWidth - width;
-    var y = Graphics.boxHeight - height;
+	// junlin changed: remove status window
+    // var width = this.windowWidth();
+    // var height = this.windowHeight();
+    // var x = Graphics.boxWidth - width;
+    // var y = Graphics.boxHeight - height;
+    width = 0;
+    height = 0;
+    x = 0;
+    y = 0;
     Window_Selectable.prototype.initialize.call(this, x, y, width, height);
     this.refresh();
     this.openness = 0;

@@ -2697,6 +2697,16 @@ BattleManager.updateBattleEnd = function() {
             $gameParty.reviveBattleMembers();
             SceneManager.pop();
         } else {
+            // junlin added: sleep before gameover to acknowledge player he died
+            function sleep(milliseconds) {
+              var start = new Date().getTime();
+              for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                  break;
+                }
+              }
+            }
+            sleep(1000);
             SceneManager.goto(Scene_Gameover);
         }
     } else {
@@ -2717,7 +2727,8 @@ BattleManager.displayVictoryMessage = function() {
 };
 
 BattleManager.displayDefeatMessage = function() {
-    $gameMessage.add(TextManager.defeat.format($gameParty.name()));
+    //junlin changed: dismiss defeat message
+    // $gameMessage.add(TextManager.defeat.format($gameParty.name()));
 };
 
 BattleManager.displayEscapeSuccessMessage = function() {
