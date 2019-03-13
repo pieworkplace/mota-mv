@@ -328,6 +328,10 @@ if (Imported["MVCommons"] === undefined) {
   };
 
   $.canShowOnThisScene = function(scene) {
+    // junlin changed: shop openned
+    if ($gameSwitches && $gameSwitches._data[3]){
+      return true;
+    }
     if (scene instanceof Scene_Map) {
       return $.Param.ShowOnMap;
     } else if (scene instanceof Scene_Menu) {

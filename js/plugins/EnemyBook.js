@@ -147,10 +147,15 @@
         Scene_MenuBase.prototype.create.call(this);
         this._indexWindow = new Window_EnemyBookIndex(0, 0);
         this._indexWindow.setHandler('cancel', this.popScene.bind(this));
-        var wy = this._indexWindow.height;
-        var ww = Graphics.boxWidth;
-        var wh = Graphics.boxHeight - wy;
-        this._statusWindow = new Window_EnemyBookStatus(0, wy, ww, wh);
+        // junlin changed: change status window size and position
+        var wx = Graphics.boxWidth * 0.3;
+        var wy = Graphics.boxHeight * 0.25 - 27;
+        var ww = Graphics.boxWidth * 0.7;
+        var wh = Graphics.boxHeight * 0.5 + 54;
+        // var wy = this._indexWindow.height;
+        // var ww = Graphics.boxWidth;
+        // var wh = Graphics.boxHeight - wy;
+        this._statusWindow = new Window_EnemyBookStatus(wx, wy, ww, wh);
         this.addWindow(this._indexWindow);
         this.addWindow(this._statusWindow);
         this._indexWindow.setStatusWindow(this._statusWindow);
@@ -167,8 +172,12 @@
     Window_EnemyBookIndex.lastIndex  = 0;
 
     Window_EnemyBookIndex.prototype.initialize = function(x, y) {
-        var width = Graphics.boxWidth;
-        var height = this.fittingHeight(6);
+        // junlin changed: change index window size and position
+        var width = Graphics.boxWidth * 0.3;
+        var y = Graphics.boxHeight * 0.25 - 27;
+        var height = Graphics.boxHeight * 0.5 + 54;
+        // var width = Graphics.boxWidth;
+        // var height = this.fittingHeight(6);
         Window_Selectable.prototype.initialize.call(this, x, y, width, height);
         this.refresh();
         this.setTopRow(Window_EnemyBookIndex.lastTopRow);
@@ -177,7 +186,9 @@
     };
 
     Window_EnemyBookIndex.prototype.maxCols = function() {
-        return 3;
+        // junlin changed: max column change to 1
+        return 1;
+        // return 3;
     };
 
     Window_EnemyBookIndex.prototype.maxItems = function() {
@@ -220,6 +231,8 @@
         if ($gameSystem.isInEnemyBook(enemy)) {
             name = enemy.name;
         } else {
+            // junlin changed: do not draw unknown monster
+            return;
             name = unknownData;
         }
         this.drawText(name, rect.x, rect.y, rect.width);
@@ -244,8 +257,11 @@
         this._enemySprite = new Sprite();
         this._enemySprite.anchor.x = 0.5;
         this._enemySprite.anchor.y = 0.5;
-        this._enemySprite.x = width / 2 - 20;
-        this._enemySprite.y = height / 2;
+        // junlin changed: x, y of monster image
+        this._enemySprite.x = 48;
+        this._enemySprite.y = 48;
+        // this._enemySprite.x = width / 2 - 20;
+        // this._enemySprite.y = height / 2;
         this.addChildToBack(this._enemySprite);
         this.refresh();
     };
@@ -273,8 +289,11 @@
 
     Window_EnemyBookStatus.prototype.refresh = function() {
         var enemy = this._enemy;
-        var x = 0;
-        var y = 0;
+        // junlin changed: position of enemy's name
+        // var x = 0;
+        // var y = 0;
+        var x = 72;
+        var y = 12;
         var lineHeight = this.lineHeight();
 
         this.contents.clear();
@@ -297,51 +316,147 @@
         this.resetTextColor();
         this.drawText(enemy.name, x, y);
 
+        // junlin changed: start position of enemy info
         x = this.textPadding();
-        y = lineHeight + this.textPadding();
+        y = lineHeight + this.textPadding() + 24;
+        // y = lineHeight + this.textPadding();
 
-        for (var i = 0; i < 8; i++) {
-            this.changeTextColor(this.systemColor());
-            this.drawText(TextManager.param(i), x, y, 160);
-            this.resetTextColor();
-            this.drawText(enemy.params[i], x + 160, y, 60, 'right');
-            y += lineHeight;
-        }
-
-        var rewardsWidth = 280;
-        x = this.contents.width - rewardsWidth;
-        y = lineHeight + this.textPadding();
-
-        this.resetTextColor();
-        this.drawText(enemy.exp, x, y);
-        x += this.textWidth(enemy.exp) + 6;
+        // junlin changed: content 
+        // for (var i = 0; i < 8; i++) {
+        //     this.changeTextColor(this.systemColor());
+        //     this.drawText(TextManager.param(i), x, y, 160);
+        //     this.resetTextColor();
+        //     this.drawText(enemy.params[i], x + 160, y, 60, 'right');
+        //     y += lineHeight;
+        // }
         this.changeTextColor(this.systemColor());
-        this.drawText(TextManager.expA, x, y);
-        x += this.textWidth(TextManager.expA + '  ');
-
+        this.drawTextEx(enemy.meta.desc1, x, y, 160);
         this.resetTextColor();
-        this.drawText(enemy.gold, x, y);
-        x += this.textWidth(enemy.gold) + 6;
-        this.changeTextColor(this.systemColor());
-        this.drawText(TextManager.currencyUnit, x, y);
+        y += lineHeight + 6;
 
-        x = this.contents.width - rewardsWidth;
+        this.changeTextColor(this.systemColor());
+        this.drawText("生命", x, y, 107);
+        this.resetTextColor();
+        this.drawText(enemy.params[0], x + 107, y, 60, 'right');
+
+        this.changeTextColor(this.systemColor());
+        this.drawText("魔攻", x + 192, y, 107);
+        this.resetTextColor();
+        this.drawText(enemy.params[4], x + 299, y, 60, 'right');
+
+        this.changeTextColor(this.systemColor());
+        this.drawText("金币", x + 384, y, 107);
+        this.resetTextColor();
+        this.drawText(enemy.gold, x + 491, y, 60, 'right');
         y += lineHeight;
 
-        for (var j = 0; j < enemy.dropItems.length; j++) {
-            var di = enemy.dropItems[j];
-            if (di.kind > 0) {
-                var item = Game_Enemy.prototype.itemObject(di.kind, di.dataId);
-                this.drawItemName(item, x, y, rewardsWidth);
-                y += lineHeight;
+        this.changeTextColor(this.systemColor());
+        this.drawText("攻击", x, y, 107);
+        this.resetTextColor();
+        this.drawText(enemy.params[2], x + 107, y, 60, 'right');
+
+        this.changeTextColor(this.systemColor());
+        this.drawText("魔防", x + 192, y, 107);
+        this.resetTextColor();
+        this.drawText(enemy.params[5], x + 299, y, 60, 'right');
+
+        this.changeTextColor(this.systemColor());
+        this.drawText("经验", x + 384, y, 107);
+        this.resetTextColor();
+        this.drawText(enemy.exp, x + 491, y, 60, 'right');
+        y += lineHeight;
+
+        this.changeTextColor(this.systemColor());
+        this.drawText("防御", x, y, 107);
+        this.resetTextColor();
+        this.drawText(enemy.params[3], x + 107, y, 60, 'right');
+        
+        this.changeTextColor(this.systemColor());
+        this.drawText("估计伤害", x + 192, y, 107);
+        this.resetTextColor();
+
+
+        // var rewardsWidth = 280;
+        // x = this.contents.width - rewardsWidth;
+        // y = lineHeight + this.textPadding();
+
+        // this.resetTextColor();
+        // this.drawText(enemy.exp, x, y);
+        // x += this.textWidth(enemy.exp) + 6;
+        // this.changeTextColor(this.systemColor());
+        // this.drawText(TextManager.expA, x, y);
+        // x += this.textWidth(TextManager.expA + '  ');
+
+        // this.resetTextColor();
+        // this.drawText(enemy.gold, x, y);
+        // x += this.textWidth(enemy.gold) + 6;
+        // this.changeTextColor(this.systemColor());
+        // this.drawText(TextManager.currencyUnit, x, y);
+
+        // x = this.contents.width - rewardsWidth;
+        // y += lineHeight;
+
+        // for (var j = 0; j < enemy.dropItems.length; j++) {
+        //     var di = enemy.dropItems[j];
+        //     if (di.kind > 0) {
+        //         var item = Game_Enemy.prototype.itemObject(di.kind, di.dataId);
+        //         this.drawItemName(item, x, y, rewardsWidth);
+        //         y += lineHeight;
+        //     }
+        // }
+
+        // var descWidth = 480;
+        // x = this.contents.width - descWidth;
+        // y = this.textPadding() + lineHeight * 7;
+        // this.drawTextEx(enemy.meta.desc1, x, y + lineHeight * 0, descWidth);
+        // this.drawTextEx(enemy.meta.desc2, x, y + lineHeight * 1, descWidth);
+        
+        var pie_result = "";
+        var soldier_atk = $gameParty.leader().atk;
+        var monster_atk = enemy.params[2];
+        var soldier_def = $gameParty.leader().def;
+        var monster_def = enemy.params[3];
+        var monster_hp = enemy.params[0];
+
+        console.log(enemy);
+
+        if (monster_def>= soldier_atk){
+            pie_result = "死亡";
+        }
+        else if (new Set([1,2,3]).has(enemy.id)){//普通
+            //战斗次数：怪物生命÷（勇士攻击－怪物防御)[注：舍小数点取整数]
+            //损失计算：战斗次数×（怪物攻击－勇士防御）×怪物进攻
+            if ((monster_hp % (soldier_atk - monster_def)) === 0){
+                pie_result = (monster_hp / (soldier_atk - monster_def) - 1) * (monster_atk - soldier_def);
+            } else{
+                pie_result = parseInt(monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def);
             }
+            pie_result = pie_result >= 0? pie_result : 0;
         }
 
-        var descWidth = 480;
-        x = this.contents.width - descWidth;
-        y = this.textPadding() + lineHeight * 7;
-        this.drawTextEx(enemy.meta.desc1, x, y + lineHeight * 0, descWidth);
-        this.drawTextEx(enemy.meta.desc2, x, y + lineHeight * 1, descWidth);
+        // else if (enemy.params[7] === 2 || enemy.params[7] === 6){//先攻 (黏稠+先攻) 
+        //     if ((monster_hp % (soldier_atk - monster_def)) === 0){
+        //         pie_result = (monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def);
+        //     } else{
+        //         pie_result = (parseInt(monster_hp / (soldier_atk - monster_def)) + 1) * (monster_atk - soldier_def);
+        //     }
+        //     pie_result = pie_result >= 0? pie_result : 0;
+        // }
+        // else if (enemy.params[7] === 7){//二连击
+        //     if ((monster_hp % (soldier_atk - monster_def)) === 0){
+        //         pie_result = (monster_hp / (soldier_atk - monster_def) - 1) * (monster_atk - soldier_def) * 2;
+        //     } else{
+        //         pie_result = parseInt(monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def) * 2;
+        //     }
+        // }
+        else{
+            pie_result = "未知";
+        }
+
+        this.drawText("" + pie_result, x + 491, y, 60, 'right');
+        y += lineHeight + 6;
+
+        this.drawTextEx(enemy.meta.desc2, x, y, 160);
     };
 
 })();

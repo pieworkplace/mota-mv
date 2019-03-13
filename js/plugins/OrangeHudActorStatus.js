@@ -203,9 +203,9 @@ if (Imported["OrangeHudActorStatus"] === undefined) {
           + "攻击: " + actorData.atk + "\n"
           + "防御: " + enemyData.def + gap + spaces(12-(""+enemyData.def).length)
           + "防御: " + actorData.def + "\n"
-          + "魔攻: " + (enemyData.mat === 1 ? "0" : enemyData.mat) + gap + spaces(12-(""+enemyData.mat).length)
+          + "魔攻: " + enemyData.mat + gap + spaces(12-(""+enemyData.mat).length)
           + "魔攻: " + actorData.mat + "\n"
-          + "魔防: " + (enemyData.mdf === 1 ? "0" : enemyData.mdf) + gap + spaces(12-(""+enemyData.mdf).length)
+          + "魔防: " + enemyData.mdf + gap + spaces(12-(""+enemyData.mdf).length)
           + "魔防: " + actorData.mdf + "\n"
           + "金币: " + enemyData.gold() + gap + spaces(12-(""+enemyData.gold()).length)
           + stateStr + "\n"
