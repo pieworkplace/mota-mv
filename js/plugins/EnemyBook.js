@@ -418,8 +418,6 @@
         var monster_def = enemy.params[3];
         var monster_hp = enemy.params[0];
 
-        console.log(enemy);
-
         if (monster_def>= soldier_atk){
             pie_result = "死亡";
         }
@@ -460,3 +458,4 @@
     };
 
 })();
+

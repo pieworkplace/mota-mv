@@ -109,8 +109,10 @@
 					//    AudioManager.playSe(popSe);
 					//    AudioManager.stopAll();
 			} else if(index === 1){
+				// atk+3
 				$gameParty.members()[0]._paramPlus[2] += 3;
 			} else if(index === 2){
+				//def+3
 				$gameParty.members()[0]._paramPlus[3] += 3;
 			}
 		}
