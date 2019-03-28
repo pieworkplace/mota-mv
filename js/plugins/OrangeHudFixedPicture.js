@@ -81,9 +81,9 @@ if (Imported["OrangeHudFixedPicture"] === undefined) {
       // junlin changed: HUD pictures display
       //window.drawPicture(variableData.FileName, variableData.X, variableData.Y);
       if (!(SceneManager._scene instanceof Scene_Battle)){
-		window.drawPicture('HUD-yellow', 624, 480);
+		window.drawPicture('HUD-yellow', 619, 480);
       	window.drawPicture('HUD-blue', 688, 480);
-      	window.drawPicture('HUD-red', 752, 480);
+      	window.drawPicture('HUD-red', 757, 480);
       }
     }
   };

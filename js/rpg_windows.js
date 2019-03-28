@@ -2672,7 +2672,10 @@ Window_Options.prototype.makeCommandList = function() {
 
 Window_Options.prototype.addGeneralOptions = function() {
     this.addCommand(TextManager.alwaysDash, 'alwaysDash');
-    this.addCommand(TextManager.commandRemember, 'commandRemember');
+    //junlin changed: delete this option
+    // this.addCommand(TextManager.commandRemember, 'commandRemember');
+    //junlin added: auto battle
+    this.addCommand(TextManager.autoBattle, 'autoBattle');
 };
 
 Window_Options.prototype.addVolumeOptions = function() {

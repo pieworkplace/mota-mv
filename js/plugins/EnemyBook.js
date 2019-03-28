@@ -421,7 +421,7 @@
         if (monster_def>= soldier_atk){
             pie_result = "死亡";
         }
-        else if (new Set([1,2,3]).has(enemy.id)){//普通
+        else if (new Set([1,2,3,4,5,8,9]).has(enemy.id)){//普通，黏稠第一阶段
             //战斗次数：怪物生命÷（勇士攻击－怪物防御)[注：舍小数点取整数]
             //损失计算：战斗次数×（怪物攻击－勇士防御）×怪物进攻
             if ((monster_hp % (soldier_atk - monster_def)) === 0){
@@ -431,24 +431,33 @@
             }
             pie_result = pie_result >= 0? pie_result : 0;
         }
-
-        // else if (enemy.params[7] === 2 || enemy.params[7] === 6){//先攻 (黏稠+先攻) 
-        //     if ((monster_hp % (soldier_atk - monster_def)) === 0){
-        //         pie_result = (monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def);
-        //     } else{
-        //         pie_result = (parseInt(monster_hp / (soldier_atk - monster_def)) + 1) * (monster_atk - soldier_def);
-        //     }
-        //     pie_result = pie_result >= 0? pie_result : 0;
-        // }
-        // else if (enemy.params[7] === 7){//二连击
-        //     if ((monster_hp % (soldier_atk - monster_def)) === 0){
-        //         pie_result = (monster_hp / (soldier_atk - monster_def) - 1) * (monster_atk - soldier_def) * 2;
-        //     } else{
-        //         pie_result = parseInt(monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def) * 2;
-        //     }
-        // }
+        else if (new Set([6,10]).has(enemy.id)) {//二连击, 黏稠第一阶段
+            if ((monster_hp % (soldier_atk - monster_def)) === 0){
+                pie_result = (monster_hp / (soldier_atk - monster_def) - 1) * (monster_atk - soldier_def) * 2;
+            } else{
+                pie_result = parseInt(monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def) * 2;
+            }
+            pie_result = pie_result >= 0? pie_result : 0;
+        }
+        else if (new Set([7]).has(enemy.id)) {//先攻
+            if ((monster_hp % (soldier_atk - monster_def)) === 0){
+                pie_result = (monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def);
+            } else{
+                pie_result = (parseInt(monster_hp / (soldier_atk - monster_def)) + 1) * (monster_atk - soldier_def);
+            }
+            pie_result = pie_result >= 0? pie_result : 0;
+        }
         else{
             pie_result = "未知";
+        }
+        if (enemy.id === 8) {
+            pie_result = parseInt(pie_result / 0.8)
+        }
+        if (enemy.id === 9) {
+            pie_result = parseInt(pie_result / 0.7)
+        }
+        if (enemy.id === 10) {
+            pie_result = parseInt(pie_result / 0.7)
         }
 
         this.drawText("" + pie_result, x + 491, y, 60, 'right');

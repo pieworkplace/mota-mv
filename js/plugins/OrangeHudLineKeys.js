@@ -143,7 +143,7 @@ if (Imported["OrangeHudLineKeys"] === undefined) {
     	line = "";
     } else {
     	line = "" + yellow + spaces(5 - (""+ yellow).length)
-    			  + blue + spaces(5 - (""+ blue).length)
+    			  + blue +spaces(5 - (""+ blue).length)
     			  + red;
     }
 
