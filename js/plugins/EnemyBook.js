@@ -418,10 +418,7 @@
         var monster_def = enemy.params[3];
         var monster_hp = enemy.params[0];
 
-        if (monster_def>= soldier_atk){
-            pie_result = "死亡";
-        }
-        else if (new Set([1,2,3,4,5,8,9]).has(enemy.id)){//普通，黏稠第一阶段
+        if (new Set([1,2,3,4,5,8,9]).has(enemy.id)){//普通，黏稠第一阶段
             //战斗次数：怪物生命÷（勇士攻击－怪物防御)[注：舍小数点取整数]
             //损失计算：战斗次数×（怪物攻击－勇士防御）×怪物进攻
             if ((monster_hp % (soldier_atk - monster_def)) === 0){
@@ -450,6 +447,7 @@
         else{
             pie_result = "未知";
         }
+        //黏稠第二阶段
         if (enemy.id === 8) {
             pie_result = parseInt(pie_result / 0.8)
         }
@@ -458,6 +456,9 @@
         }
         if (enemy.id === 10) {
             pie_result = parseInt(pie_result / 0.7)
+        }
+        if (monster_def>= soldier_atk){
+            pie_result = "死亡";
         }
 
         this.drawText("" + pie_result, x + 491, y, 60, 'right');

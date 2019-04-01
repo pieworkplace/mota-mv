@@ -116,7 +116,9 @@ Window_Base.prototype.update = function() {
 
 Window_Base.prototype.updateOpen = function() {
     if (this._opening) {
-        this.openness += 32;
+        // junlin changed: open speed
+        this.openness += 20;
+        // this.openness += 32;
         if (this.isOpen()) {
             this._opening = false;
         }
@@ -125,7 +127,9 @@ Window_Base.prototype.updateOpen = function() {
 
 Window_Base.prototype.updateClose = function() {
     if (this._closing) {
-        this.openness -= 32;
+        // junlin changed: close speed
+        this.openness -= 20;
+        // this.openness -= 32;
         if (this.isClosed()) {
             this._closing = false;
         }

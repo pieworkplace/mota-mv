@@ -90,9 +90,17 @@
 	{
 		mapID: 9,
 		display: '主塔7层',
-		X: 11,
-		Y: 2,
-		face: 2,
+		X: 10,
+		Y: 1,
+		face: 4,
+		visited: false,
+	},
+	{
+		mapID: 10,
+		display: '主塔8层',
+		X: 2,
+		Y: 11,
+		face: 6,
 		visited: false,
 	},
 	];
