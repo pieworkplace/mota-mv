@@ -418,7 +418,7 @@
         var monster_def = enemy.params[3];
         var monster_hp = enemy.params[0];
 
-        if (new Set([1,2,3,4,5,8,9]).has(enemy.id)){//普通，黏稠第一阶段
+        if (new Set([1,2,3,4,5,8,9,12,13]).has(enemy.id)){//普通，黏稠第一阶段
             //战斗次数：怪物生命÷（勇士攻击－怪物防御)[注：舍小数点取整数]
             //损失计算：战斗次数×（怪物攻击－勇士防御）×怪物进攻
             if ((monster_hp % (soldier_atk - monster_def)) === 0){
@@ -436,7 +436,15 @@
             }
             pie_result = pie_result >= 0? pie_result : 0;
         }
-        else if (new Set([7]).has(enemy.id)) {//先攻
+        else if (new Set([11]).has(enemy.id)) {//三连击, 黏稠第一阶段
+            if ((monster_hp % (soldier_atk - monster_def)) === 0){
+                pie_result = (monster_hp / (soldier_atk - monster_def) - 1) * (monster_atk - soldier_def) * 3;
+            } else{
+                pie_result = parseInt(monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def) * 3;
+            }
+            pie_result = pie_result >= 0? pie_result : 0;
+        }
+        else if (new Set([7,14]).has(enemy.id)) {//先攻
             if ((monster_hp % (soldier_atk - monster_def)) === 0){
                 pie_result = (monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def);
             } else{

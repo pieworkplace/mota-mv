@@ -103,6 +103,30 @@
 		face: 6,
 		visited: false,
 	},
+	{
+		mapID: 11,
+		display: '主塔9层',
+		X: 2,
+		Y: 1,
+		face: 4,
+		visited: false,
+	},
+	{
+		mapID: 12,
+		display: '主塔10层',
+		X: 9,
+		Y: 2,
+		face: 2,
+		visited: false,
+	},
+	{
+		mapID: 13,
+		display: '主塔11层',
+		X: 11,
+		Y: 2,
+		face: 2,
+		visited: false,
+	},
 	];
 
 	var _Game_Interpreter_pluginCommand = Game_Interpreter.prototype.pluginCommand;
@@ -123,6 +147,13 @@
 						if (mapList[i].mapID === Number(args[1])){
 							mapList[i].visited = true;
 						}
+					}
+				} break;
+				case 'DELETE_ALL':
+				{
+					$gameSystem.addMapSelection(Number(args[1]));
+					for (var i = 0; i < mapList.length; i++){
+						mapList[i].visited = false;
 					}
 				} break;
 			}
