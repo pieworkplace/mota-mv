@@ -411,65 +411,66 @@
         // this.drawTextEx(enemy.meta.desc1, x, y + lineHeight * 0, descWidth);
         // this.drawTextEx(enemy.meta.desc2, x, y + lineHeight * 1, descWidth);
         
-        var pie_result = "";
-        var soldier_atk = $gameParty.leader().atk;
-        var monster_atk = enemy.params[2];
-        var soldier_def = $gameParty.leader().def;
-        var monster_def = enemy.params[3];
-        var monster_hp = enemy.params[0];
+        // var pie_result = "";
+        // var soldier_atk = $gameParty.leader().atk;
+        // var monster_atk = enemy.params[2];
+        // var soldier_def = $gameParty.leader().def;
+        // var monster_def = enemy.params[3];
+        // var monster_hp = enemy.params[0];
 
-        if (new Set([1,2,3,4,5,8,9,12,13]).has(enemy.id)){//普通，黏稠第一阶段
-            //战斗次数：怪物生命÷（勇士攻击－怪物防御)[注：舍小数点取整数]
-            //损失计算：战斗次数×（怪物攻击－勇士防御）×怪物进攻
-            if ((monster_hp % (soldier_atk - monster_def)) === 0){
-                pie_result = (monster_hp / (soldier_atk - monster_def) - 1) * (monster_atk - soldier_def);
-            } else{
-                pie_result = parseInt(monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def);
-            }
-            pie_result = pie_result >= 0? pie_result : 0;
-        }
-        else if (new Set([6,10]).has(enemy.id)) {//二连击, 黏稠第一阶段
-            if ((monster_hp % (soldier_atk - monster_def)) === 0){
-                pie_result = (monster_hp / (soldier_atk - monster_def) - 1) * (monster_atk - soldier_def) * 2;
-            } else{
-                pie_result = parseInt(monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def) * 2;
-            }
-            pie_result = pie_result >= 0? pie_result : 0;
-        }
-        else if (new Set([11]).has(enemy.id)) {//三连击, 黏稠第一阶段
-            if ((monster_hp % (soldier_atk - monster_def)) === 0){
-                pie_result = (monster_hp / (soldier_atk - monster_def) - 1) * (monster_atk - soldier_def) * 3;
-            } else{
-                pie_result = parseInt(monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def) * 3;
-            }
-            pie_result = pie_result >= 0? pie_result : 0;
-        }
-        else if (new Set([7,14]).has(enemy.id)) {//先攻
-            if ((monster_hp % (soldier_atk - monster_def)) === 0){
-                pie_result = (monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def);
-            } else{
-                pie_result = (parseInt(monster_hp / (soldier_atk - monster_def)) + 1) * (monster_atk - soldier_def);
-            }
-            pie_result = pie_result >= 0? pie_result : 0;
-        }
-        else{
-            pie_result = "未知";
-        }
-        //黏稠第二阶段
-        if (enemy.id === 8) {
-            pie_result = parseInt(pie_result / 0.8)
-        }
-        if (enemy.id === 9) {
-            pie_result = parseInt(pie_result / 0.7)
-        }
-        if (enemy.id === 10) {
-            pie_result = parseInt(pie_result / 0.7)
-        }
-        if (monster_def>= soldier_atk){
-            pie_result = "死亡";
-        }
+        // if (new Set([1,2,3,4,5,8,9,12,13]).has(enemy.id)){//普通，黏稠第一阶段
+        //     //战斗次数：怪物生命÷（勇士攻击－怪物防御)[注：舍小数点取整数]
+        //     //损失计算：战斗次数×（怪物攻击－勇士防御）×怪物进攻
+        //     if ((monster_hp % (soldier_atk - monster_def)) === 0){
+        //         pie_result = (monster_hp / (soldier_atk - monster_def) - 1) * (monster_atk - soldier_def);
+        //     } else{
+        //         pie_result = parseInt(monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def);
+        //     }
+        //     pie_result = pie_result >= 0? pie_result : 0;
+        // }
+        // else if (new Set([6,10]).has(enemy.id)) {//二连击, 黏稠第一阶段
+        //     if ((monster_hp % (soldier_atk - monster_def)) === 0){
+        //         pie_result = (monster_hp / (soldier_atk - monster_def) - 1) * (monster_atk - soldier_def) * 2;
+        //     } else{
+        //         pie_result = parseInt(monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def) * 2;
+        //     }
+        //     pie_result = pie_result >= 0? pie_result : 0;
+        // }
+        // else if (new Set([11]).has(enemy.id)) {//三连击, 黏稠第一阶段
+        //     if ((monster_hp % (soldier_atk - monster_def)) === 0){
+        //         pie_result = (monster_hp / (soldier_atk - monster_def) - 1) * (monster_atk - soldier_def) * 3;
+        //     } else{
+        //         pie_result = parseInt(monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def) * 3;
+        //     }
+        //     pie_result = pie_result >= 0? pie_result : 0;
+        // }
+        // else if (new Set([7,14]).has(enemy.id)) {//先攻
+        //     if ((monster_hp % (soldier_atk - monster_def)) === 0){
+        //         pie_result = (monster_hp / (soldier_atk - monster_def)) * (monster_atk - soldier_def);
+        //     } else{
+        //         pie_result = (parseInt(monster_hp / (soldier_atk - monster_def)) + 1) * (monster_atk - soldier_def);
+        //     }
+        //     pie_result = pie_result >= 0? pie_result : 0;
+        // }
+        // else{
+        //     pie_result = "未知";
+        // }
+        // //黏稠第二阶段
+        // if (enemy.id === 8) {
+        //     pie_result = parseInt(pie_result / 0.8)
+        // }
+        // if (enemy.id === 9) {
+        //     pie_result = parseInt(pie_result / 0.7)
+        // }
+        // if (enemy.id === 10) {
+        //     pie_result = parseInt(pie_result / 0.7)
+        // }
+        // if (monster_def>= soldier_atk){
+        //     pie_result = "死亡";
+        // }
 
-        this.drawText("" + pie_result, x + 491, y, 60, 'right');
+        // this.drawText("" + pie_result, x + 491, y, 60, 'right');
+        this.drawText($gameVariables._data[9][enemy.id], x + 491, y, 60, 'right');
         y += lineHeight + 6;
 
         this.drawTextEx(enemy.meta.desc2, x, y, 160);

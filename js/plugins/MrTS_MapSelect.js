@@ -127,6 +127,38 @@
 		face: 2,
 		visited: false,
 	},
+	{
+		mapID: 14,
+		display: '主塔12层',
+		X: 2,
+		Y: 11,
+		face: 6,
+		visited: false,
+	},
+	{
+		mapID: 15,
+		display: '主塔13层',
+		X: 11,
+		Y: 10,
+		face: 8,
+		visited: false,
+	},
+	{
+		mapID: 16,
+		display: '主塔14层',
+		X: 2,
+		Y: 11,
+		face: 8,
+		visited: false,
+	},
+	{
+		mapID: 17,
+		display: '主塔15层',
+		X: 7,
+		Y: 10,
+		face: 8,
+		visited: false,
+	},
 	];
 
 	var _Game_Interpreter_pluginCommand = Game_Interpreter.prototype.pluginCommand;
@@ -202,6 +234,12 @@
 	Scene_MapSelect.prototype.listOkay = function() {
 		var item = this._listWindow.item(this._listWindow.index());
 		this.popScene();
+		var popSe    = {};
+		popSe.name   = 'Raise2';
+		popSe.pitch  = 150;
+		popSe.volume = 90;
+		popSe.pan    = 0;
+		AudioManager.playSe(popSe);
 		$gamePlayer.reserveTransfer(item.mapID, item.X, item.Y, item.face, 0);
 	};
 

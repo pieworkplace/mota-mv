@@ -45,7 +45,7 @@
 	var _Game_Interpreter_pluginCommand = Game_Interpreter.prototype.pluginCommand;
 	Game_Interpreter.prototype.pluginCommand = function(command, args) {
 		_Game_Interpreter_pluginCommand.call(this, command, args);
-		if (command.toLowerCase() === "shopselection") {
+		if (command.toLowerCase() === "shopselection1") {
 			switch (args[0].toUpperCase())
 			{
 				case 'START':
@@ -86,7 +86,7 @@
 
 	Scene_MapSelect.prototype.createBottomWindow = function() {
 		var price = $gameVariables._data[4];
-		var msg = "欢迎光临贪婪商店，如果给我" + price + '金币，';
+		var msg = "欢迎光临金币商店，如果给我" + price + '金币，';
 
 		this._bottomWindow = new Window_MapSelect_Message(msg, 48, Graphics.boxHeight / 2 - 150, 528, 120);
 		this.addWindow(this._bottomWindow);
@@ -117,7 +117,7 @@
 			}
 		}
 		var price = $gameVariables._data[4];
-		var msg = "欢迎光临贪婪商店，如果给我" + price + '金币，';
+		var msg = "欢迎光临金币商店，如果给我" + price + '金币，';
 		this._bottomWindow._message = msg;
 		this._bottomWindow.refresh();
 		this._listWindow.refresh();
@@ -151,7 +151,9 @@
 	Window_MapSelect_Message.prototype.refresh = function() {
 		this.createContents();
 		this.drawText(this._message, 0, 38, this.contentsWidth(), 'left');
-		this.drawText("贪婪商店", 0, 0, this.contentsWidth(), 'center');
+		this.changeTextColor(this.textColor(6));
+		this.drawText("金币商店", 0, 0, this.contentsWidth(), 'center');
+		this.resetTextColor();
 		this.drawText("我将赐予你更加强大的力量！", 0, 76, this.contentsWidth(), 'left');
 	};
 
@@ -195,7 +197,8 @@
 		if (item)
 		{
 			if ($gameParty.gold() < $gameVariables._data[4]){
-				this.changeTextColor(this.textColor(8));
+				// this.changeTextColor(this.textColor(8));
+				this.changePaintOpacity(false);
 			}
 			var rect = this.itemRectForText(index);
 			this.drawText(item.name, rect.x, rect.y, rect.width);
@@ -205,6 +208,13 @@
 	Window_MapSelect_List.prototype.maxCols = function() {
         return 1;
     };
+
+    Window_MapSelect_List.prototype.isCurrentItemEnabled = function() {
+    	if ($gameParty.gold() < $gameVariables._data[4]){
+			return false;
+		}
+		return true;
+	};
 
 
 })();

@@ -2975,6 +2975,7 @@ Sprite_Battler.prototype.setBattler = function(battler) {
 
 Yanfly.BEC.Sprite_Battler_startMove = Sprite_Battler.prototype.startMove;
 Sprite_Battler.prototype.startMove = function(x, y, duration) {
+	return;
     if (this._battler && !this._battler.spriteCanMove()) return;
     Yanfly.BEC.Sprite_Battler_startMove.call(this, x, y, duration);
 };

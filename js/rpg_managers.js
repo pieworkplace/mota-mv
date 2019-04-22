@@ -2640,13 +2640,14 @@ BattleManager.checkAbort = function() {
 };
 
 BattleManager.processVictory = function() {
-    $gameParty.removeBattleStates();
+    //junlin changed: battle states doesnt removed after battle
+    // $gameParty.removeBattleStates();
     $gameParty.performVictory();
     this.playVictoryMe();
     this.replayBgmAndBgs();
     this.makeRewards();
-    this.displayVictoryMessage();
-    this.displayRewards();
+    // this.displayVictoryMessage();
+    // this.displayRewards();
     this.gainRewards();
     this.endBattle(0);
 };

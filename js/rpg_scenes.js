@@ -1793,6 +1793,19 @@ Scene_Load.prototype.onSavefileOk = function() {
 };
 
 Scene_Load.prototype.onLoadSuccess = function() {
+    //junlin added: 每次读档时，攻击防御魔攻魔防为1的怪物重新修改为0
+    for (var i = 1; i < $dataEnemies.length; i++){
+        if ($dataEnemies[i].params[2] === 1){
+        $dataEnemies[i].params[2] = 0;}
+        if ($dataEnemies[i].params[3] === 1){
+        $dataEnemies[i].params[3] = 0;}
+        if ($dataEnemies[i].params[4] === 1){
+        $dataEnemies[i].params[4] = 0;}
+        if ($dataEnemies[i].params[5] === 1){
+        $dataEnemies[i].params[5] = 0;}
+    }
+    //junlin added: 每次读档时刷新怪物数据，便于debug
+    $gameTemp.reserveCommonEvent(12);
     SoundManager.playLoad();
     this.fadeOutAll();
     this.reloadMapIfUpdated();

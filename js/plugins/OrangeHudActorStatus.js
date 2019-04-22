@@ -156,7 +156,7 @@ if (Imported["OrangeHudActorStatus"] === undefined) {
 
     // junlin changed: position of hud when battle/map
     if (SceneManager._scene instanceof Scene_Battle){
-      window.drawTextEx(line, 150, 150);
+      window.drawTextEx(line, 150, 130);
     } else {
       window.drawTextEx(line, 624, 48);
     }
@@ -183,34 +183,43 @@ if (Imported["OrangeHudActorStatus"] === undefined) {
         stateStr = stateStr + "\\i[" + (actorData._states[i]) + "]";
       }
 
+      function spaces(n){
+        str = '';
+        for (var i = 0; i < n; i++) str += ' ';
+        return str;
+      }
+
       // junlin changed: battle hud
       if (SceneManager._scene instanceof Scene_Battle){
         // solve problem of whitespace
-        function spaces(n){
-          str = '';
-          for (var i = 0; i < n; i++) str += ' ';
-          return str;
-        }
         gap = "";
-        enemyData = $gameTroop.members()[0];
+        var enemyData;
+        for (var i = 0; i < $gameTroop.members().length; i++){
+          enemyData = $gameTroop.members()[i];
+          if (enemyData && enemyData.hp !== 0) break;
+        }
+        enemyData = enemyData || $gameTroop.members()[0];
         line = line.replace(/\<map_hud\>/gi, "");
         line = line.replace(/\<battle_hud\>/gi, 
-            enemyData.name() + gap + spaces(18 - 2 * (""+ enemyData.name()).length)
+            "\n\n" + spaces(5) + 
+            enemyData.name() + gap + spaces(20 - 2 * (""+ enemyData.name()).length)
           + "勇者\n"
-          + "生命: " + enemyData.hp + gap + spaces(12-(""+enemyData.hp).length)
+          + spaces(5)
+          + "生命: " + enemyData.hp + gap + spaces(14-(""+enemyData.hp).length)
           + "生命: " + actorData.hp + "\n"
-          + "攻击: " + enemyData.atk + gap + spaces(12-(""+enemyData.atk).length)
+          + spaces(5)
+          + "攻击: " + enemyData.atk + gap + spaces(14-(""+enemyData.atk).length)
           + "攻击: " + actorData.atk + "\n"
-          + "防御: " + enemyData.def + gap + spaces(12-(""+enemyData.def).length)
+          + spaces(5)
+          + "防御: " + enemyData.def + gap + spaces(14-(""+enemyData.def).length)
           + "防御: " + actorData.def + "\n"
-          + "魔攻: " + enemyData.mat + gap + spaces(12-(""+enemyData.mat).length)
+          + spaces(5)
+          + "魔攻: " + enemyData.mat + gap + spaces(14-(""+enemyData.mat).length)
           + "魔攻: " + actorData.mat + "\n"
-          + "魔防: " + enemyData.mdf + gap + spaces(12-(""+enemyData.mdf).length)
+          + spaces(5)
+          + "魔防: " + enemyData.mdf + gap + spaces(14-(""+enemyData.mdf).length)
           + "魔防: " + actorData.mdf + "\n"
-          + "金币: " + enemyData.gold() + gap + spaces(12-(""+enemyData.gold()).length)
-          + stateStr + "\n"
-          + "经验: " + enemyData.exp()
-          + "\n\n撤退: 长按 X 或 Esc 可在主角回合撤退"
+          + "\n" + spaces(2) + "撤退: 长按 X 或 Esc 可在主角回合撤退"
           );
       } else {
         line = line.replace(/\<battle_hud\>/gi, "");
