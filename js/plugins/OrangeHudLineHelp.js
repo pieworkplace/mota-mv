@@ -134,7 +134,7 @@ if (Imported["OrangeHudLineHelp"] === undefined) {
     if (SceneManager._scene instanceof Scene_Battle){
       line = "";
     } else {
-      line = '按H进入帮助菜单';
+      line = '帮助：按H键';
     }
 
     window.contents.fontFace = variableData.FontFace;

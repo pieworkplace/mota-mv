@@ -385,6 +385,9 @@ Window_EventMiniLabel.prototype.refresh = function() {
     if (this._text === 'killed'){
     	this.drawTextEx("", wx + this.textPadding(), wy);
     }
+    else if (isNaN(Number(this._text))){
+    	this.drawTextEx(this._text, wx + this.textPadding(), wy);
+    }
     else{
     	this.drawTextEx($gameVariables._data[9][Number(this._text)]+"", wx + this.textPadding(), wy);
     }

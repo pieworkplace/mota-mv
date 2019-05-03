@@ -4177,6 +4177,8 @@ Game_Actor.prototype.showRemovedStates = function() {
 };
 
 Game_Actor.prototype.stepsForTurn = function() {
+    // junlin changed: steps for poison
+    return 1;
     return 20;
 };
 

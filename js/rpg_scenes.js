@@ -1804,7 +1804,7 @@ Scene_Load.prototype.onLoadSuccess = function() {
         if ($dataEnemies[i].params[5] === 1){
         $dataEnemies[i].params[5] = 0;}
     }
-    //junlin added: 每次读档时刷新怪物数据，便于debug
+    //junlin added: 每次读档时刷新怪物数据
     $gameTemp.reserveCommonEvent(12);
     SoundManager.playLoad();
     this.fadeOutAll();
