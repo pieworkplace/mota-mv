@@ -247,6 +247,14 @@
 		face: 2,
 		visited: false,
 	},
+	{
+		mapID: 18,
+		display: '隐藏3层',
+		X: 6,
+		Y: 11,
+		face: 8,
+		visited: false,
+	},
 	];
 
 	var _Game_Interpreter_pluginCommand = Game_Interpreter.prototype.pluginCommand;
